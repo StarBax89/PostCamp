@@ -4,7 +4,7 @@
   "description": "Create a test scenario (Collection) from different Postman Collections",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,11 @@
   },
   "author": "",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/marcelbax1/postmantestscenariocreator#readme"
+  "homepage": "https://bitbucket.org/marcelbax1/postmantestscenariocreator#readme",
+  "dependencies": {
+    "ajv": "^6.1.1"
+  },
+  "devDependencies": {
+    "mocha": "^5.0.0"
+  }
 }
