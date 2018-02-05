@@ -10,7 +10,7 @@ Create a test scenario (Collection) from different Postman Collections
 <pre>
 
  {
- 	"name": "NAME_Wird_sp√§ter_name_der_test_collection",
+ 	"name": "NAME_Wird_sp‰ter_name_der_test_collection",
  	"items": [{
  			"collection": "name der collection aus der der request entnommen wird",
  			"requestName": "name des_requests"
@@ -21,4 +21,4 @@ Create a test scenario (Collection) from different Postman Collections
  		}
  	]
  }
-</pre>
+<pre>
