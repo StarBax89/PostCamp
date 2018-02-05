@@ -2,12 +2,12 @@
 Create a test scenario (Collection) from different Postman Collections
 
 
-1. <code>$ npm install -g </code>
+1. ```$ npm install -g 
 
-2. <code>$ postmantestscenariocreator </code>
+2. ```$ postmantestscenariocreator
     
     
-<pre>
+``` json
 
  {
  	"name": "NAME_Wird_später_name_der_test_collection",
@@ -21,8 +21,4 @@ Create a test scenario (Collection) from different Postman Collections
  		}
  	]
  }
-<pre>
-
-```js
-var a = {};
 ```
