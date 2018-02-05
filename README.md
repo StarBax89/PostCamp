@@ -2,9 +2,9 @@
 Create a test scenario (Collection) from different Postman Collections
 
 
-1. ```$ npm install -g 
+1. ``` $ npm install -g 
 
-2. ```$ postmantestscenariocreator
+2. ``` $ postmantestscenariocreator
     
     
 ``` json
