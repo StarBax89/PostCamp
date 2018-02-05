@@ -1,0 +1,19 @@
+{
+  "name": "postmantestscenariocreator",
+  "version": "1.0.0",
+  "description": "Create a test scenario (Collection) from different Postman Collections",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/marcelbax1/postmantestscenariocreator.git"
+  },
+  "bin": {
+    "postmantestscenariocreator": "./index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/marcelbax1/postmantestscenariocreator#readme"
+}
