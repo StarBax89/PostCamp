@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/StarBax89/PostmanTestScenarioCreator/issues"
   },
-  "homepage": "https://github.com/StarBax89/PostmanTestScenarioCreator#readme"
+  "homepage": "https://github.com/StarBax89/PostmanTestScenarioCreator#readme",
+  "devDependencies": {
+    "nodemon": "^1.14.12"
+  },
+  "dependencies": {
+    "express": "^4.16.2"
+  }
 }
