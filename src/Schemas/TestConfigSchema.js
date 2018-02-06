@@ -16,15 +16,11 @@ var schema = {
                         },
                         "requestName": {
                             "type": "string"
-                        },
-                        "asdf": {
-                            "type": "string"
                         }
                     },
                     "required": [
                         "collection",
-                        "requestName",
-                        "asdf"
+                        "requestName"
                     ]
                 },
                 {

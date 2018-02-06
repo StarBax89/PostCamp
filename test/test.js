@@ -1,36 +1,55 @@
 var assert = require('assert');
 
-var TestConfigSchema = require('../src/Schemas/TestConfigSchema');
-var PostmanCollectionSchema = require('../src/Schemas/PostmanCollectionSchema');
-var Ajv = require('ajv');
+var CollectionGenerator = require('../src/CollectionGenerator');
 describe('CenarioCreator', function() {
     describe('#copyFromTo()', function() {
 
 
+       it('should return error if TestConfigIsInvalid', function() {
 
-
-        it('should return json with new collection', function() {
-            assert.equal(1,1);
-
-            var ajv = new Ajv({schemaId: 'auto'});
-            // If you want to use both draft-04 and draft-06/07 schemas:
-            // var ajv = new Ajv({schemaId: 'auto'});
-            ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
-
-            var testConfig = require('./resources/ValidTestConfig')
-
+            var testConfig = require('./resources/InValidTestConfig')
             var collection = require('./resources/ValidPostmanCollection')
+            var collectionGenerator = new CollectionGenerator();
 
-
-            var valid = ajv.validate(TestConfigSchema, testConfig);
-            if (!valid) console.log(ajv.errors);
-
-            valid = ajv.validate(PostmanCollectionSchema, collection);
-            if (!valid) console.log(ajv.errors);
-
+            var errorThrown = false;
+            try {
+                collectionGenerator.generateCollection(collection, testConfig);
+            }
+            catch(e) {
+                errorThrown = true;
+            }
+            if(!errorThrown) {
+                assert.fail("Error should be thrown");
+            }
         });
 
+        it('should return error if CollectionIsInvalid', function() {
 
+            var testConfig = require('./resources/ValidTestConfig')
+            var collection = require('./resources/InValidPostmanCollection')
+            var collectionGenerator = new CollectionGenerator();
+
+            var errorThrown = false;
+            try {
+                collectionGenerator.generateCollection(collection, testConfig);
+            }
+            catch(e) {
+                errorThrown = true;
+            }
+            if(!errorThrown) {
+                assert.fail("Error should be thrown");
+            }
+        });
+
+        it('should return no error if everything is valid', function() {
+
+            var testConfig = require('./resources/ValidTestConfig')
+            var collection = require('./resources/ValidPostmanCollection')
+            var collectionGenerator = new CollectionGenerator();
+
+            collectionGenerator.generateCollection(collection, testConfig);
+
+        });
 
     });
 });
