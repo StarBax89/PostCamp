@@ -1,4 +1,4 @@
-var schema = {
+{
     "$schema": "http://json-schema.org/draft-04/schema#",
     "type": "object",
     "properties": {
@@ -45,6 +45,5 @@ var schema = {
         "name",
         "items"
     ]
-};
+}
 
-module.exports = schema;

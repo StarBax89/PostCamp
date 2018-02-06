@@ -1,4 +1,4 @@
-var testConfig = {
+{
     "name": "NAME_Wird_später_name_der_test_collection",
     "items": [{
         "collection": "name der collection aus der der request entnommen wird",
@@ -9,6 +9,4 @@ var testConfig = {
             "requestName": "name des_requests #2"
         }
     ]
-};
-
-module.exports = testConfig;
+}

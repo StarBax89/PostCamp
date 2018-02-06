@@ -1,11 +1,11 @@
-var collection = {
+{
     "info": {
         "name": "Elasticsearch",
         "_postman_id": "af43ca22-56d3-3846-69f7-219d7c9d82b5",
         "description": "",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
-    "item": [
+    "items": [
         {
             "name": "MatchAll",
             "request": {
@@ -298,6 +298,4 @@ var collection = {
             "response": []
         }
     ]
-};
-
-module.exports = collection;
+}
