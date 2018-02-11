@@ -14,6 +14,9 @@
                         "collection": {
                             "type": "string"
                         },
+                        "folder": {
+                            "type": "string"
+                        },
                         "requestName": {
                             "type": "string"
                         }
@@ -46,4 +49,3 @@
         "items"
     ]
 }
-

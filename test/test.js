@@ -53,10 +53,6 @@ describe('CenarioCreator', function() {
 
         it('should return two requests', function() {
 
-
-
-
-
             var testConfig =
                 {
                     "name": "collectionName",
@@ -64,22 +60,46 @@ describe('CenarioCreator', function() {
                         "collection": "TestCollection",
                         "requestName": "Request1"
                     },
-                    {
-                        "collection": "TestCollection",
-                        "requestName": "Request5"
-                    }
+                        {
+                            "collection": "TestCollection",
+                            "requestName": "Request5"
+                        }
                     ]
-            };
+                };
             var collection = require('./resources/TestCollection.json')
             var collectionGenerator = new CollectionGenerator();
 
             var testCollection = collectionGenerator.generateCollection(collection, testConfig);
 
+            console.log(JSON.stringify(testCollection));
+            assert.equal(testCollection.item.length, 2);
+        });
+
+
+        it('should find requests in folders', function() {
+
+            var testConfig =
+                {
+                    "name": "collectionName",
+                    "items": [{
+                        "collection" : "TestCollection",
+                        "folder" : "Folder1",
+                        "requestName" : "Request7"
+                    },
+                        {
+                            "collection" : "TestCollection",
+                            "folder" : "Folder2",
+                            "requestName" : "Request8"
+                        }
+                    ]
+                };
+            var collection = require('./resources/TestCollection.json')
+            var collectionGenerator = new CollectionGenerator();
+
+            var testCollection = collectionGenerator.generateCollection(collection, testConfig);
 
             console.log(JSON.stringify(testCollection));
             assert.equal(testCollection.item.length, 2);
-
-
         });
 
 

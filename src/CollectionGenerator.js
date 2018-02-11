@@ -1,17 +1,16 @@
-
 "use strict";
-var Ajv = require('ajv');
-var TestConfigSchema = require('./Schemas/TestConfigSchema.json');
-var PostmanCollectionSchema = require('./Schemas/PostmanCollectionSchema.json');
-
-var CollectionGenerator = function() {};
+const Ajv = require('ajv');
+const TestConfigSchema = require('./Schemas/TestConfigSchema.json');
+const PostmanCollectionSchema = require('./Schemas/PostmanCollectionSchema.json');
+const ItemFinder = require('./ItemFinder');
+const CollectionGenerator = function() {};
 
 CollectionGenerator.prototype.generateCollection = function (collection, testConfig) {
 
     validateTestConfigSchema(testConfig);
     validateCollectionSchema(collection);
 
-    var testCollection = {
+    const testCollection = {
         "info": {
 
             "description": "",
@@ -19,56 +18,32 @@ CollectionGenerator.prototype.generateCollection = function (collection, testCon
         },
         "item": []
     };
-    var i = 0;
-    testConfig.items.forEach(function (element) {
-        //console.log("ItemToFind :"+element.requestName);
-        var item = findElementInCollection(element, collection);
-        //console.log(JSON.stringify(item));
-        testCollection.item[i] = item;
-
-        i++;
-    });
+    const itemFinder = new ItemFinder(collection, testConfig);
+    testCollection.item = itemFinder.findItems();
     testCollection.name = testConfig.name;
     return testCollection;
+};
 
-}
-
-function validateCollectionSchema(collection) {
-    var ajv = new Ajv({schemaId: 'auto'});
+const validateCollectionSchema = function validateCollectionSchema(collection) {
+    const ajv = new Ajv({schemaId: 'auto'});
     ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
 
-    var valid = ajv.validate(PostmanCollectionSchema, collection);
+    const valid = ajv.validate(PostmanCollectionSchema, collection);
     if (!valid) {
-        //console.log(ajv.errors);
         throw new Error("Error, collection invalid:");
     }
-}
+};
 
-function validateTestConfigSchema(testConfig) {
-    var ajv = new Ajv({schemaId: 'auto'});
+const validateTestConfigSchema = function (testConfig) {
+    const ajv = new Ajv({schemaId: 'auto'});
     ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
 
-    var valid = ajv.validate(TestConfigSchema, testConfig);
+    const valid = ajv.validate(TestConfigSchema, testConfig);
     if (!valid) {
-        //console.log(ajv.errors);
         throw new Error("Error, testConfig invalid");
     }
-}
+};
 
-var findElementInCollection = function (elementToFind, collection) {
 
-    var foundElement;
-    collection.item.some(function (element) {
-        //console.log("etf:"+elementToFind.requestName+" elem:"+element.name);
-        if (elementToFind.requestName === element.name) {
-            //console.log("FOUND");
-            //console.log(JSON.stringify(element));
-            foundElement = element;
-            return true;
-        }
-    });
-    //console.log("huhu");
-    return foundElement;
-}
 
 module.exports = CollectionGenerator;
