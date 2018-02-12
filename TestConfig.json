@@ -1,0 +1,15 @@
+{
+  "name": "collectionName",
+  "items": [
+    {
+      "collection": "TestCollection",
+      "folder": "Folder1",
+      "requestName": "Request7"
+    },
+    {
+      "collection": "TestCollection",
+      "folder": "Folder2",
+      "requestName": "Request8"
+    }
+  ]
+}

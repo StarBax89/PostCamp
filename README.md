@@ -4,13 +4,13 @@ Create a test scenario (Collection) from different Postman Collections
 
 1. ``` $ npm install -g ```
 
-2. ``` $ postmantestscenariocreator ```
+2. ``` $ postmantestscenariocreator testCollection -c './TestCollection.postman_collection.json' -t 'TestConfig.json' -o './out.json' ```
     
     
 ``` json
 
  {
- 	"name": "NAME_Wird_sp�ter_name_der_test_collection",
+ 	"name": "NAME_Wird_spaeter_name_der_test_collection",
  	"items": [{
  			"collection": "name der collection aus der der request entnommen wird",
  			"requestName": "name des_requests"
