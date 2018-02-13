@@ -4,7 +4,7 @@ Create a test scenario (Collection) from different Postman Collections
 
 1. ``` $ npm install -g ```
 
-2. ``` $ postcamp create -c './TestCollection.postman_collection.json' -t 'TestConfig.json' -o './out.json' ```
+2. ``` $ postcamp create -t 'TestConfig.json' -o './out.json' ```
     
     
 ``` json
