@@ -1,4 +1,4 @@
-
+"use strict";
 const foundItems = [];
 let _collection;
 let _testConfig;

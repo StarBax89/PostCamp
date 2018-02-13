@@ -1,3 +1,4 @@
+"use strict";
 var assert = require('assert');
 
 var CollectionGenerator = require('../src/CollectionGenerator');

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+"use strict";
 const fs = require("fs");
 const jsonFile = require('jsonfile')
 const CollectionGenerator = require('./src/CollectionGenerator');
