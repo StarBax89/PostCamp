@@ -24,7 +24,7 @@ const startTestCollection = function(collection, testConfiguration, output) {
 };
 
 const argv = require('yargs')
-    .command('testCollection', 'Create the test collection',
+    .command('create', 'Create the test collection',
         function(yargs) {
             return yargs
                 .option('collection', {
