@@ -10,18 +10,21 @@ Create a test scenario (Collection) from different Postman Collections
 ``` json
 
  {
- 	"name": "NAME_Wird_spaeter_name_der_test_collection",
- 	"items": [{
- 			"collection": "name der collection aus der der request entnommen wird",
- 			"requestName": "name des_requests"
- 		},
- 		{
- 			"collection": "name der collection aus der der request entnommen wird #2",
- 			"folder" : "name des folders in der collection",
- 			"requestName": "name des_requests #2"
- 		}
- 	]
+   "name": "collectionName",
+   "items": [
+     {
+       "collection": "TestCollection.postman_collection.json",
+       "folder": "Folder1",
+       "requestName": "Request7"
+     },
+     {
+       "collection": "TestCollection.postman_collection.json",
+       "folder": "Folder2",
+       "requestName": "Request8"
+     }
+   ]
  }
+
  
 ```
 
@@ -35,4 +38,4 @@ Known issues:
 - Multiple requests with same name
 - Multiple folders with same name
 - No error message if folder is not found (cannot find item of null) 
-- Naming of out collection not working
+- <s>Naming of out collection not working<s>
