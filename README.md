@@ -38,4 +38,4 @@ Known issues:
 - Multiple requests with same name
 - Multiple folders with same name
 - No error message if folder is not found (cannot find item of null) 
-- <s>Naming of out collection not working<s>
+- ~~Naming of out collection not working~~
