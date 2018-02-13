@@ -1,5 +1,5 @@
 {
-  "name": "postmantestscenariocreator",
+  "name": "postcamp",
   "version": "1.0.0",
   "description": "Create a test scenario (Collection) from different Postman Collections",
   "main": "index.js",
@@ -11,7 +11,7 @@
     "url": "git+ssh://git@bitbucket.org/marcelbax1/postmantestscenariocreator.git"
   },
   "bin": {
-    "postmantestscenariocreator": "./index.js"
+    "postcamp": "./index.js"
   },
   "author": "",
   "license": "ISC",

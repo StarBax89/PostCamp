@@ -7,11 +7,11 @@ describe('CenarioCreator', function() {
 
        it('should return error if TestConfigIsInvalid', function() {
 
-            var testConfig = require('./resources/InValidTestConfig.json');
-            var collection = require('./resources/ValidPostmanCollection.json');
-            var collectionGenerator = new CollectionGenerator();
+            const testConfig = require('./resources/InValidTestConfig.json');
+            const collection = require('./resources/ValidPostmanCollection.json');
+            const collectionGenerator = new CollectionGenerator();
 
-            var errorThrown = false;
+            let errorThrown = false;
             try {
                 collectionGenerator.generateCollection(collection, testConfig);
             }
@@ -25,11 +25,11 @@ describe('CenarioCreator', function() {
 
         it('should return error if CollectionIsInvalid', function() {
 
-            var testConfig = require('./resources/ValidTestConfig.json');
-            var collection = require('./resources/InValidPostmanCollection.json');
-            var collectionGenerator = new CollectionGenerator();
+            const testConfig = require('./resources/ValidTestConfig.json');
+            const collection = require('./resources/InValidPostmanCollection.json');
+            const collectionGenerator = new CollectionGenerator();
 
-            var errorThrown = false;
+            let errorThrown = false;
             try {
                 collectionGenerator.generateCollection(collection, testConfig);
             }
@@ -43,9 +43,9 @@ describe('CenarioCreator', function() {
 
         it('should return no error if everything is valid', function() {
 
-            var testConfig = require('./resources/ValidTestConfig.json')
-            var collection = require('./resources/ValidPostmanCollection.json')
-            var collectionGenerator = new CollectionGenerator();
+            const testConfig = require('./resources/ValidTestConfig.json')
+            const collection = require('./resources/ValidPostmanCollection.json')
+            const collectionGenerator = new CollectionGenerator();
 
             collectionGenerator.generateCollection(collection, testConfig);
 
@@ -53,7 +53,7 @@ describe('CenarioCreator', function() {
 
         it('should return two requests', function() {
 
-            var testConfig =
+            const testConfig =
                 {
                     "name": "collectionName",
                     "items": [{
@@ -66,10 +66,10 @@ describe('CenarioCreator', function() {
                         }
                     ]
                 };
-            var collection = require('./resources/TestCollection.json')
-            var collectionGenerator = new CollectionGenerator();
+            const collection = require('./resources/TestCollection.json')
+            const collectionGenerator = new CollectionGenerator();
 
-            var testCollection = collectionGenerator.generateCollection(collection, testConfig);
+            const testCollection = collectionGenerator.generateCollection(collection, testConfig);
 
             console.log(JSON.stringify(testCollection));
             assert.equal(testCollection.item.length, 2);
@@ -78,7 +78,7 @@ describe('CenarioCreator', function() {
 
         it('should find requests in folders', function() {
 
-            var testConfig =
+            const testConfig =
                 {
                     "name": "collectionName",
                     "items": [{
@@ -93,10 +93,10 @@ describe('CenarioCreator', function() {
                         }
                     ]
                 };
-            var collection = require('./resources/TestCollection.json')
-            var collectionGenerator = new CollectionGenerator();
+            const collection = require('./resources/TestCollection.json')
+            const collectionGenerator = new CollectionGenerator();
 
-            var testCollection = collectionGenerator.generateCollection(collection, testConfig);
+            const testCollection = collectionGenerator.generateCollection(collection, testConfig);
 
             console.log(JSON.stringify(testCollection));
             assert.equal(testCollection.item.length, 2);
