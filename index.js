@@ -7,11 +7,11 @@ const CollectionGenerator = require('./src/CollectionGenerator');
 const startTestCollection = function(collection, testConfiguration, output) {
     //console.log("Starting testCollection:"+collection+" "+testConfiguration+" "+ output);
 
-    const collectionContent = jsonFile.readFileSync(collection);
+   // const collectionContent = jsonFile.readFileSync(collection);
     const testConfigContent = jsonFile.readFileSync(testConfiguration);
 
     const collectionGenerator = new CollectionGenerator();
-    const testCollection = collectionGenerator.generateCollection(collectionContent, testConfigContent);
+    const testCollection = collectionGenerator.generateCollection(testConfigContent);
 
     const testCollectionString = JSON.stringify(testCollection);
     fs.writeFile(output, testCollectionString, 'utf8', function (err) {
@@ -27,14 +27,6 @@ const argv = require('yargs')
     .command('create', 'Create the test collection',
         function(yargs) {
             return yargs
-                .option('collection', {
-                    alias: 'c',
-                    type: 'string',
-                    demand: 'Please specify collection file',
-                    nargs: 1,
-                    describe: 'File of postman collection',
-                    requiresArg:true
-            })
                 .option('testconfiguration',{
                     alias: 't',
                     type: 'string',

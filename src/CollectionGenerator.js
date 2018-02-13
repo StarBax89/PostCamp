@@ -5,10 +5,10 @@ const PostmanCollectionSchema = require('./Schemas/PostmanCollectionSchema.json'
 const ItemFinder = require('./ItemFinder');
 const CollectionGenerator = function() {};
 
-CollectionGenerator.prototype.generateCollection = function (collection, testConfig) {
+CollectionGenerator.prototype.generateCollection = function (/*collection, */testConfig) {
 
     validateTestConfigSchema(testConfig);
-    validateCollectionSchema(collection);
+    //validateCollectionSchema(collection);
 
     const testCollection = {
         "info": {
@@ -18,9 +18,9 @@ CollectionGenerator.prototype.generateCollection = function (collection, testCon
         },
         "item": []
     };
-    const itemFinder = new ItemFinder(collection, testConfig);
-    testCollection.item = itemFinder.findItems();
-    testCollection.name = testConfig.name;
+    const itemFinder = new ItemFinder();
+    testCollection.item = itemFinder.findItems(testConfig);
+    testCollection.info.name = testConfig.name;
     return testCollection;
 };
 

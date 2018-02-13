@@ -9,12 +9,14 @@ describe('CenarioCreator', function() {
        it('should return error if TestConfigIsInvalid', function() {
 
             const testConfig = require('./resources/InValidTestConfig.json');
-            const collection = require('./resources/ValidPostmanCollection.json');
+           testConfig.items[0].collection = './test/resources/ValidPostmanCollection.json';
+           testConfig.items[1].collection = './test/resources/ValidPostmanCollection.json';
+            //const collection = require('./resources/ValidPostmanCollection.json');
             const collectionGenerator = new CollectionGenerator();
 
             let errorThrown = false;
             try {
-                collectionGenerator.generateCollection(collection, testConfig);
+                collectionGenerator.generateCollection(/*collection, */testConfig);
             }
             catch(e) {
                 errorThrown = true;
@@ -27,12 +29,14 @@ describe('CenarioCreator', function() {
         it('should return error if CollectionIsInvalid', function() {
 
             const testConfig = require('./resources/ValidTestConfig.json');
-            const collection = require('./resources/InValidPostmanCollection.json');
+            testConfig.items[0].collection = './test/resources/InValidPostmanCollection.json';
+            testConfig.items[1].collection = './test/resources/InValidPostmanCollection.json';
+            //const collection = require('./resources/InValidPostmanCollection.json');
             const collectionGenerator = new CollectionGenerator();
 
             let errorThrown = false;
             try {
-                collectionGenerator.generateCollection(collection, testConfig);
+                collectionGenerator.generateCollection(/*collection, */testConfig);
             }
             catch(e) {
                 errorThrown = true;
@@ -44,11 +48,13 @@ describe('CenarioCreator', function() {
 
         it('should return no error if everything is valid', function() {
 
-            const testConfig = require('./resources/ValidTestConfig.json')
-            const collection = require('./resources/ValidPostmanCollection.json')
+            const testConfig = require('./resources/ValidTestConfig.json');
+            testConfig.items[0].collection = './test/resources/ValidPostmanCollection.json';
+            testConfig.items[1].collection = './test/resources/ValidPostmanCollection.json';
+            //const collection = require('./resources/ValidPostmanCollection.json')
             const collectionGenerator = new CollectionGenerator();
 
-            collectionGenerator.generateCollection(collection, testConfig);
+            collectionGenerator.generateCollection(/*collection, */testConfig);
 
         });
 
@@ -58,19 +64,19 @@ describe('CenarioCreator', function() {
                 {
                     "name": "collectionName",
                     "items": [{
-                        "collection": "TestCollection",
+                        "collection": "./test/resources/TestCollection.json",
                         "requestName": "Request1"
                     },
                         {
-                            "collection": "TestCollection",
+                            "collection": "./test/resources/TestCollection.json",
                             "requestName": "Request5"
                         }
                     ]
                 };
-            const collection = require('./resources/TestCollection.json')
+            //const collection = require('./resources/TestCollection.json')
             const collectionGenerator = new CollectionGenerator();
 
-            const testCollection = collectionGenerator.generateCollection(collection, testConfig);
+            const testCollection = collectionGenerator.generateCollection(/*collection, */testConfig);
 
             console.log(JSON.stringify(testCollection));
             assert.equal(testCollection.item.length, 2);
@@ -83,21 +89,21 @@ describe('CenarioCreator', function() {
                 {
                     "name": "collectionName",
                     "items": [{
-                        "collection" : "TestCollection",
+                        "collection" : "./test/resources/TestCollection.json",
                         "folder" : "Folder1",
                         "requestName" : "Request7"
                     },
                         {
-                            "collection" : "TestCollection",
+                            "collection" : "./test/resources/TestCollection.json",
                             "folder" : "Folder2",
                             "requestName" : "Request8"
                         }
                     ]
                 };
-            const collection = require('./resources/TestCollection.json')
+            //const collection = require('./resources/TestCollection.json')
             const collectionGenerator = new CollectionGenerator();
 
-            const testCollection = collectionGenerator.generateCollection(collection, testConfig);
+            const testCollection = collectionGenerator.generateCollection(/*collection, */testConfig);
 
             console.log(JSON.stringify(testCollection));
             assert.equal(testCollection.item.length, 2);

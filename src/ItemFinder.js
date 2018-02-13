@@ -1,26 +1,31 @@
 "use strict";
 const foundItems = [];
-let _collection;
-let _testConfig;
-let _currentElement;
+//let _testConfig;
+//let _currentElement;
+const Ajv = require('ajv');
+const jsonFile = require('jsonfile')
+const PostmanCollectionSchema = require('./Schemas/PostmanCollectionSchema.json');
 
-const ItemFinder = function(collection, testConfig) {
-    _collection = collection;
-    _testConfig = testConfig;
-};
 
-ItemFinder.prototype.findItems = function findItems() {
+const ItemFinder = function() {};
+
+ItemFinder.prototype.findItems = function findItems(testConfig) {
 
     let i = 0;
-    _testConfig.items.forEach(function (element) {
+    testConfig.items.forEach(function (element) {
         let item = null;
-        _currentElement = element;
+        let currentElement = element;
+        console.log("element col:"+element.collection);
 
-        if (currentElementHasAFolder()) {
-            item = findElementWithFolderInCollection();
+        let _collection = jsonFile.readFileSync(element.collection);
+        console.log("colX:"+_collection);
+        validateCollectionSchema(_collection);
+
+        if (currentElementHasAFolder(currentElement)) {
+            item = findElementWithFolderInCollection(_collection, currentElement);
         }
         else {
-            item = findElementByNameInObject(_currentElement.requestName, _collection);
+            item = findElementByNameInObject(currentElement.requestName, _collection);
         }
 
         if (item) {
@@ -31,13 +36,14 @@ ItemFinder.prototype.findItems = function findItems() {
     return foundItems;
 };
 
-const currentElementHasAFolder = function() {
-    return _currentElement.folder && _currentElement.folder!=="";
+const currentElementHasAFolder = function(currentElement) {
+    return currentElement.folder && currentElement.folder!=="";
 };
 
-const findElementWithFolderInCollection = function () {
-    const folder = findElementByNameInObject(_currentElement.folder, _collection);
-    return findElementByNameInObject(_currentElement.requestName, folder);
+const findElementWithFolderInCollection = function (collection, currentElement) {
+    console.log("col:"+collection);
+    const folder = findElementByNameInObject(currentElement.folder, collection);
+    return findElementByNameInObject(currentElement.requestName, folder);
 };
 
 const findElementByNameInObject = function (elementName, objectToSearchIn) {
@@ -49,6 +55,17 @@ const findElementByNameInObject = function (elementName, objectToSearchIn) {
         }
     });
     return foundElement;
+};
+
+
+const validateCollectionSchema = function validateCollectionSchema(collection) {
+    const ajv = new Ajv({schemaId: 'auto'});
+    ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
+
+    const valid = ajv.validate(PostmanCollectionSchema, collection);
+    if (!valid) {
+        throw new Error("Error, collection invalid:");
+    }
 };
 
 module.exports = ItemFinder;

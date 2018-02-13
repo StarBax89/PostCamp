@@ -2,12 +2,12 @@
   "name": "collectionName",
   "items": [
     {
-      "collection": "TestCollection",
+      "collection": "TestCollection.postman_collection.json",
       "folder": "Folder1",
       "requestName": "Request7"
     },
     {
-      "collection": "TestCollection",
+      "collection": "TestCollection.postman_collection.json",
       "folder": "Folder2",
       "requestName": "Request8"
     }
