@@ -1,11 +1,9 @@
 "use strict";
 const foundItems = [];
-//let _testConfig;
-//let _currentElement;
 const Ajv = require('ajv');
 const jsonFile = require('jsonfile')
 const PostmanCollectionSchema = require('./Schemas/PostmanCollectionSchema.json');
-
+const uuidV4 = require('uuid/v4');
 
 const ItemFinder = function() {};
 
@@ -32,6 +30,9 @@ ItemFinder.prototype.findItems = function findItems(testConfig) {
             foundItems[i] = item;
             i++;
         }
+        //console.log("new coll:"+JSON.stringify(_collection));
+
+        jsonFile.writeFileSync(element.collection, _collection)
     });
     return foundItems;
 };
@@ -51,6 +52,21 @@ const findElementByNameInObject = function (elementName, objectToSearchIn) {
     objectToSearchIn.item.some(function (collectionItem) {
         if (elementName === collectionItem.name) {
             foundElement = collectionItem;
+
+
+            if(collectionItem.hasOwnProperty('request')) {
+                var request = collectionItem.request;
+                if (request.hasOwnProperty('request')) {
+
+                    if(request.description.indexOf("{\"#postcampId\"") === -1)
+                    {
+                        request.description = collectionItem.description.concat("\n{\"#postcampId\":\""+uuidV4()+"\"}");
+                    }
+                }
+                else {
+                    request.description = "\n{\"#postcampId\":\""+uuidV4()+"\"}";
+                }
+            }
             return true;
         }
     });
@@ -64,6 +80,7 @@ const validateCollectionSchema = function validateCollectionSchema(collection) {
 
     const valid = ajv.validate(PostmanCollectionSchema, collection);
     if (!valid) {
+        console.log("Schema has errors:"+ajv.errorsText());
         throw new Error("Error, collection invalid:");
     }
 };
