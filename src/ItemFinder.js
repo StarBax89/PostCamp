@@ -15,6 +15,7 @@ let _collection;
 
 ItemFinder.prototype.copyItems = function copyItems(testConfig, generatePostCampIds) {
 
+    _generatePostCampIds = generatePostCampIds;
     let i = 0;
     testConfig.items.forEach(function (element) {
 
