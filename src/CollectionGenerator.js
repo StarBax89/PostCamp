@@ -7,7 +7,6 @@ const CollectionGenerator = function() {};
 CollectionGenerator.prototype.generateCollection = function (/*collection, */testConfig) {
 
     validateTestConfigSchema(testConfig);
-    //validateCollectionSchema(collection);
 
     const testCollection = {
         "info": {
@@ -18,7 +17,7 @@ CollectionGenerator.prototype.generateCollection = function (/*collection, */tes
         "item": []
     };
     const itemFinder = new ItemFinder();
-    testCollection.item = itemFinder.findItems(testConfig);
+    testCollection.item = itemFinder.copyItems(testConfig, true);
     testCollection.info.name = testConfig.name;
     return testCollection;
 };

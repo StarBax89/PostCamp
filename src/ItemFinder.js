@@ -4,47 +4,81 @@ const Ajv = require('ajv');
 const jsonFile = require('jsonfile')
 const PostmanCollectionSchema = require('./Schemas/PostmanCollectionSchema.json');
 const uuidV4 = require('uuid/v4');
+const fs = require('fs');
+
 
 const ItemFinder = function() {};
 
-ItemFinder.prototype.findItems = function findItems(testConfig) {
+let _generatePostCampIds;
+let _element;
+let _collection;
+
+ItemFinder.prototype.copyItems = function copyItems(testConfig, generatePostCampIds) {
 
     let i = 0;
     testConfig.items.forEach(function (element) {
-        let item = null;
-        let currentElement = element;
-        console.log("element col:"+element.collection);
 
-        let _collection = jsonFile.readFileSync(element.collection);
-        console.log("colX:"+_collection);
-        validateCollectionSchema(_collection);
-
-        if (currentElementHasAFolder(currentElement)) {
-            item = findElementWithFolderInCollection(_collection, currentElement);
-        }
-        else {
-            item = findElementByNameInObject(currentElement.requestName, _collection);
-        }
+        _element = element;
+        _collection = getCollectionFromOriginOrSavedIdFile();
+        validateCollectionSchema();
+        let item = findItemInCollection();
 
         if (item) {
             foundItems[i] = item;
             i++;
         }
-        //console.log("new coll:"+JSON.stringify(_collection));
+        saveCollectionWithPostCampIdsIfNeeded();
 
-        jsonFile.writeFileSync(element.collection, _collection)
     });
     return foundItems;
 };
 
-const currentElementHasAFolder = function(currentElement) {
-    return currentElement.folder && currentElement.folder!=="";
+const getCollectionWithPostCampIds = function () {
+    var postCampCollectionPath = _element.collection;
+    postCampCollectionPath = postCampCollectionPath.replace('.json', '_withPostcampIds.json');
+    return postCampCollectionPath;
 };
 
-const findElementWithFolderInCollection = function (collection, currentElement) {
-    console.log("col:"+collection);
-    const folder = findElementByNameInObject(currentElement.folder, collection);
-    return findElementByNameInObject(currentElement.requestName, folder);
+const getCollectionFromOriginOrSavedIdFile = function () {
+    var postCampCollectionPath = getCollectionWithPostCampIds();
+    let collection;
+    if(_generatePostCampIds && fs.existsSync(postCampCollectionPath))
+    {
+        collection = jsonFile.readFileSync(postCampCollectionPath);
+    }
+    else
+    {
+        collection = jsonFile.readFileSync(_element.collection);
+    }
+    return collection;
+};
+
+const findItemInCollection = function () {
+    let item = null;
+    if (currentElementHasAFolder()) {
+        item = findElementWithFolderInCollection();
+    }
+    else {
+        item = findElementByNameInObject(_element.requestName, _collection);
+    }
+    return item;
+};
+
+const saveCollectionWithPostCampIdsIfNeeded = function () {
+    if(_generatePostCampIds)
+    {
+        var postCampCollectionPath = getCollectionWithPostCampIds();
+        jsonFile.writeFileSync(postCampCollectionPath, _collection)
+    }
+};
+
+const currentElementHasAFolder = function() {
+    return _element.folder && _element.folder!=="";
+};
+
+const findElementWithFolderInCollection = function () {
+    const folder = findElementByNameInObject(_element.folder, _collection);
+    return findElementByNameInObject(_element.requestName, folder);
 };
 
 const findElementByNameInObject = function (elementName, objectToSearchIn) {
@@ -74,11 +108,11 @@ const findElementByNameInObject = function (elementName, objectToSearchIn) {
 };
 
 
-const validateCollectionSchema = function validateCollectionSchema(collection) {
+const validateCollectionSchema = function validateCollectionSchema() {
     const ajv = new Ajv({schemaId: 'auto'});
     ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
 
-    const valid = ajv.validate(PostmanCollectionSchema, collection);
+    const valid = ajv.validate(PostmanCollectionSchema, _collection);
     if (!valid) {
         console.log("Schema has errors:"+ajv.errorsText());
         throw new Error("Error, collection invalid:");
