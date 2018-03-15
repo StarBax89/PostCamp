@@ -18,7 +18,9 @@
   "homepage": "https://bitbucket.org/marcelbax1/postmantestscenariocreator#readme",
   "dependencies": {
     "ajv": "^6.1.1",
+    "bluebird": "^3.5.1",
     "jsonfile": "^4.0.0",
+    "newman": "^3.9.3",
     "uuid": "^3.2.1",
     "yargs": "^11.0.0"
   },
