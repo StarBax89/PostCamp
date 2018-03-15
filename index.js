@@ -3,8 +3,12 @@
 const fs = require("fs");
 const jsonFile = require('jsonfile')
 const CollectionGenerator = require('./src/CollectionGenerator');
+//var grunt = require('grunt-cli');
+var newman = require('newman'),
+    Promise = require('bluebird'),
+    newmanRun = Promise.promisify(newman.run);
 
-const startTestCollection = function(collection, testConfiguration, output) {
+const startTestCollection = function(testConfiguration, output, newman) {
     //console.log("Starting testCollection:"+collection+" "+testConfiguration+" "+ output);
 
    // const collectionContent = jsonFile.readFileSync(collection);
@@ -22,6 +26,16 @@ const startTestCollection = function(collection, testConfiguration, output) {
         console.log("Wrote testCollection to " + output);
     });
     console.log(JSON.stringify(testCollection));
+    if(newman)
+    {
+        runNewman(output);
+    }
+};
+const runNewman = function (collection) {
+    newmanRun({
+        collection: collection,
+        reporters: 'cli'
+    });
 };
 
 const argv = require('yargs')
@@ -43,10 +57,20 @@ const argv = require('yargs')
                     nargs: 1,
                     describe: 'File to save new testcollection',
                     requiresArg:true
+                })
+
+                .option('newman',{
+                    alias: 'n',
+                    type: 'boolean',
+                    demand: 'Please specify an output file',
+                    nargs: 1,
+                    describe: 'File to save new testcollection',
+                    requiresArg:false,
+                    default: false
                 });
         },
         function (argv) {
-            startTestCollection(argv.collection, argv.testconfiguration, argv.output);
+            startTestCollection(argv.testconfiguration, argv.output, argv.newman);
         })
 
     .argv;
