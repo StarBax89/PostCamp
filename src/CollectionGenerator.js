@@ -1,14 +1,12 @@
 "use strict";
 const Ajv = require('ajv');
 const TestConfigSchema = require('./Schemas/TestConfigSchema.json');
-const PostmanCollectionSchema = require('./Schemas/PostmanCollectionSchema.json');
 const ItemFinder = require('./ItemFinder');
 const CollectionGenerator = function() {};
 
 CollectionGenerator.prototype.generateCollection = function (/*collection, */testConfig) {
 
     validateTestConfigSchema(testConfig);
-    //validateCollectionSchema(collection);
 
     const testCollection = {
         "info": {
@@ -19,19 +17,9 @@ CollectionGenerator.prototype.generateCollection = function (/*collection, */tes
         "item": []
     };
     const itemFinder = new ItemFinder();
-    testCollection.item = itemFinder.findItems(testConfig);
+    testCollection.item = itemFinder.copyItems(testConfig, true);
     testCollection.info.name = testConfig.name;
     return testCollection;
-};
-
-const validateCollectionSchema = function validateCollectionSchema(collection) {
-    const ajv = new Ajv({schemaId: 'auto'});
-    ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
-
-    const valid = ajv.validate(PostmanCollectionSchema, collection);
-    if (!valid) {
-        throw new Error("Error, collection invalid:");
-    }
 };
 
 const validateTestConfigSchema = function (testConfig) {

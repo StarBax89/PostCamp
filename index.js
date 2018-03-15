@@ -21,6 +21,7 @@ const startTestCollection = function(collection, testConfiguration, output) {
 
         console.log("Wrote testCollection to " + output);
     });
+    console.log(JSON.stringify(testCollection));
 };
 
 const argv = require('yargs')
