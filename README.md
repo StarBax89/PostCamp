@@ -5,6 +5,9 @@ Create a test scenario (Collection) from different Postman Collections
 1. ``` $ npm install -g ```
 
 2. ``` $ postcamp create -t 'TestConfig.json' -o './out.json' ```
+
+To run newman after test creation:
+``` $ postcamp create -t 'TestConfig.json' -o './out.json' -newman true```
     
     
 ``` json
