@@ -31,11 +31,6 @@ To run newman after test creation:
  
 ```
 
-
-Schemas generated with 
-https://www.liquid-technologies.com/online-json-to-schema-converter
-
-
 Known issues:
 
 - Multiple requests with same name
