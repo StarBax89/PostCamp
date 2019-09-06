@@ -22,7 +22,8 @@
     "jsonfile": "^4.0.0",
     "newman": "^4.5.4",
     "uuid": "^3.3.3",
-    "yargs": "^11.1.0"
+    "yargs": "^11.1.0",
+    "mem": ">=4.0.0"
   },
   "devDependencies": {
     "mocha": "^5.2.0"
