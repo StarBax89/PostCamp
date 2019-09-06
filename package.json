@@ -15,7 +15,6 @@
   },
   "author": "",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/marcelbax1/postmantestscenariocreator#readme",
   "dependencies": {
     "ajv": "^6.10.2",
     "bluebird": "^3.5.5",
