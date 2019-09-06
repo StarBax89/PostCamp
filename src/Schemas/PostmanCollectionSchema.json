@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "id": "https://schema.getpostman.com/json/collection/v2.0.0/",
+    "id": "https://schema.getpostman.com/json/collection/v2.1.0/",
     "type": "object",
     "properties": {
         "info": {
@@ -36,6 +36,9 @@
                     "$ref": "#/definitions/auth"
                 }
             ]
+        },
+        "protocolProfileBehavior": {
+            "$ref": "#/definitions/protocol-profile-behavior"
         }
     },
     "required": [
@@ -43,7 +46,27 @@
         "item"
     ],
     "definitions": {
+        "auth-attribute": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "type": "object",
+            "title": "Auth",
+            "id": "#/definitions/auth-attribute",
+            "description": "Represents an attribute for any authorization method provided by Postman. For example `username` and `password` are set as auth attributes for Basic Authentication method.",
+            "properties": {
+                "key": {
+                    "type": "string"
+                },
+                "value": {},
+                "type": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "key"
+            ]
+        },
         "auth": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
             "type": "object",
             "title": "Auth",
             "id": "#/definitions/auth",
@@ -52,321 +75,89 @@
                 "type": {
                     "type": "string",
                     "enum": [
+                        "apikey",
                         "awsv4",
                         "basic",
                         "bearer",
                         "digest",
                         "hawk",
-                        "ntlm",
                         "noauth",
                         "oauth1",
-                        "oauth2"
+                        "oauth2",
+                        "ntlm"
                     ]
                 },
+                "noauth": {},
+                "apikey": {
+                    "type": "array",
+                    "title": "API Key Authentication",
+                    "description": "The attributes for API Key Authentication.",
+                    "items": {
+                        "$ref": "#/definitions/auth-attribute"
+                    }
+                },
                 "awsv4": {
-                    "type": "object",
+                    "type": "array",
                     "title": "AWS Signature v4",
-                    "description": "This helper attributes for [AWS Auth](http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html)",
-                    "properties": {
-                        "accessKey": {
-                            "type": "string",
-                            "description": "AWS Signature V4 calculation requires the AWS Access Key of the AWS IAM user being used. This key is stored in this field.\n *Note: Do not use your AWS root credentials here.*"
-                        },
-                        "secretKey": {
-                            "type": "string",
-                            "description": "The AWS Secret key associated with the Access Key is stored in this field.\n *Note: Do not use your AWS root credentials here.*"
-                        },
-                        "region": {
-                            "type": "string",
-                            "description": "The AWS region code, must be one of the ones mentioned in the [AWS Documentation](http://docs.aws.amazon.com/general/latest/gr/rande.html)"
-                        },
-                        "service": {
-                            "type": "string",
-                            "description": "The AWS Service endpoint. Refer to the [AWS Documentation](http://docs.aws.amazon.com/general/latest/gr/rande.html) for possible values."
-                        }
+                    "description": "The attributes for [AWS Auth](http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html).",
+                    "items": {
+                        "$ref": "#/definitions/auth-attribute"
                     }
                 },
                 "basic": {
-                    "type": "object",
+                    "type": "array",
                     "title": "Basic Authentication",
-                    "description": "The helper attributes for [Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication)",
-                    "properties": {
-                        "username": {
-                            "type": "string",
-                            "description": "The username to be used for Basic Authentication is stored in this field."
-                        },
-                        "password": {
-                            "type": "string",
-                            "description": "The password to be used for Basic Authentication is stored in this field."
-                        }
+                    "description": "The attributes for [Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication).",
+                    "items": {
+                        "$ref": "#/definitions/auth-attribute"
                     }
                 },
                 "bearer": {
-                    "type": "object",
+                    "type": "array",
                     "title": "Bearer Token Authentication",
                     "description": "The helper attributes for [Bearer Token Authentication](https://tools.ietf.org/html/rfc6750)",
-                    "properties": {
-                        "token": {
-                            "type": "string",
-                            "description": "The token to be used for Bearer Authentication is stored in this field."
-                        }
+                    "items": {
+                        "$ref": "#/definitions/auth-attribute"
                     }
                 },
                 "digest": {
-                    "type": "object",
+                    "type": "array",
                     "title": "Digest Authentication",
-                    "description": "The helper attributes for [Digest Authentication](https://en.wikipedia.org/wiki/Digest_access_authentication).",
-                    "properties": {
-                        "username": {
-                            "type": "string",
-                            "description": "The username to be used for digest Authentication is stored in this field."
-                        },
-                        "realm": {
-                            "type": "string",
-                            "description": "The authentication 'realm' is stored in this field. Refer to [RFC 2617](https://tools.ietf.org/html/rfc2617) for details."
-                        },
-                        "password": {
-                            "type": "string",
-                            "description": "The password to be used for digest Authentication is stored in this field."
-                        },
-                        "nonce": {
-                            "type": "string",
-                            "description": "The Digest server challenges clients. A nonce is a part of that challenge, stored in this field."
-                        },
-                        "nonceCount": {
-                            "type": "string",
-                            "description": "The nonceCount is the hexadecimal count of the number of requests (including the current request) that the client has sent with the nonce value in this request."
-                        },
-                        "algorithm": {
-                            "type": "string",
-                            "description": "The algorithm to be used to sign the request."
-                        },
-                        "qop": {
-                            "type": "string",
-                            "description": "Indicates the 'quality of protection' applied by the client to the message."
-                        },
-                        "opaque": {
-                            "type": "string",
-                            "description": "A string of data, specified by the server, which should be returned by the client unchanged."
-                        },
-                        "clientNonce": {
-                            "type": "string",
-                            "description": "A client nonce enhances the security of HTTP Digest Authentication, and it is stored in this field."
-                        },
-                        "disableRetryRequest": {
-                            "type": "boolean",
-                            "default": false,
-                            "description": "When set to true, disables interactive replay mode for the parent request."
-                        }
+                    "description": "The attributes for [Digest Authentication](https://en.wikipedia.org/wiki/Digest_access_authentication).",
+                    "items": {
+                        "$ref": "#/definitions/auth-attribute"
                     }
                 },
                 "hawk": {
-                    "type": "object",
+                    "type": "array",
                     "title": "Hawk Authentication",
-                    "description": "Helper attributes for [Hawk Authentication](https://github.com/hueniverse/hawk)",
-                    "properties": {
-                        "authId": {
-                            "type": "string",
-                            "description": "Hawk Authentication requires a client identifier to be passed to the server. This field contains that identifier."
-                        },
-                        "authKey": {
-                            "type": "string",
-                            "description": "The secret that's shared by the server and the client. It is recommended to use an environment variable here, and set the value in your environment."
-                        },
-                        "algorithm": {
-                            "type": "string",
-                            "description": "The hashing algorithm used in this Hawk authentication request is stored in this field."
-                        },
-                        "user": {
-                            "type": "string",
-                            "description": "One can optionally send their username (if available) to the Hawk protected endpoint. This field holds the value, if given."
-                        },
-                        "nonce": {
-                            "type": "string",
-                            "description": "The Hawk server challenges clients. A nonce is a part of that challenge, stored in this field."
-                        },
-                        "extraData": {
-                            "type": "string",
-                            "description": "This field stores metadata for the current authentication request."
-                        },
-                        "appId": {
-                            "type": "string",
-                            "description": "Serves to identify the backend app in case multiple ones are supported. This field is optional."
-                        },
-                        "delegation": {
-                            "type": "string",
-                            "description": "This field is used when Hawk auth is used as a part of a larger protocol and serves as a place for handling complex scenarios such as access delegation."
-                        },
-                        "timestamp": {
-                            "type": "string",
-                            "description": "The timestamp for the current Hawk authentication request."
-                        }
+                    "description": "The attributes for [Hawk Authentication](https://github.com/hueniverse/hawk)",
+                    "items": {
+                        "$ref": "#/definitions/auth-attribute"
                     }
                 },
-                "noauth": {},
                 "ntlm": {
-                    "type": "object",
+                    "type": "array",
                     "title": "NTLM Authentication",
-                    "description": "Helper attributes for [NTLM Authentication](https://msdn.microsoft.com/en-us/library/cc237488.aspx)",
-                    "properties": {
-                        "username": {
-                            "type": "string",
-                            "description": "The username to be used for NTLM Authentication is stored in this field."
-                        },
-                        "password": {
-                            "type": "string",
-                            "description": "The password to be used for NTLM Authentication is stored in this field."
-                        },
-                        "domain": {
-                            "type": "string",
-                            "description": "The domain to be used for NTLM Authentication is stored in this field."
-                        },
-                        "workstation": {
-                            "type": "string",
-                            "description": "The workstation to be used for NTLM Authentication is stored in this field."
-                        },
-                        "disableRetryRequest": {
-                            "type": "boolean",
-                            "description": "When set to true, disables interactive replay mode for the parent request."
-                        }
+                    "description": "The attributes for [NTLM Authentication](https://msdn.microsoft.com/en-us/library/cc237488.aspx)",
+                    "items": {
+                        "$ref": "#/definitions/auth-attribute"
                     }
                 },
                 "oauth1": {
-                    "type": "object",
+                    "type": "array",
                     "title": "OAuth1",
-                    "description": "Helper attributes for [OAuth2](https://oauth.net/1/)",
-                    "properties": {
-                        "consumerKey": {
-                            "type": "string",
-                            "description": "The oAuth1 Consumer Secret, along with the Consumer Key authenticates the client. This field holds the oAuth1 Consumer Key."
-                        },
-                        "consumerSecret": {
-                            "type": "string",
-                            "description": "The oAuth1 Consumer Secret, along with the Consumer Key authenticates the client. The consumer secret is stored in this field."
-                        },
-                        "token": {
-                            "type": "string",
-                            "description": "The request token is a temporary credential, and is stored by Postman in this field."
-                        },
-                        "tokenSecret": {
-                            "type": "string",
-                            "description": "Like the token, the request token secret is a temporary credential stored for the current authentication request."
-                        },
-                        "signatureMethod": {
-                            "type": "string",
-                            "description": "The name of the signature method used by the client to sign the request."
-                        },
-                        "timestamp": {
-                            "type": "string",
-                            "description": "The timestamp associated with the current authentication request is stored in this field."
-                        },
-                        "nonce": {
-                            "type": "string",
-                            "description": "A nonce is a random string, uniquely generated by the client to allow the server to verify that a request has never been made before and helps prevent replay attacks when requests are made over a non-secure channel."
-                        },
-                        "version": {
-                            "type": "string",
-                            "description": "The oAuth version, usually, this is ``1.0`` for OAuth-1. For OAuth 2, use the dedicated OAuth 2.0 authentication helper instead."
-                        },
-                        "realm": {
-                            "type": "string",
-                            "description": "The realm directive is required for all authentication schemes that issue a challenge. Refer to [RFC 2617](http://tools.ietf.org/html/rfc2617#section-1.2) for more details."
-                        },
-                        "encodeOAuthSign": {
-                            "type": "string",
-                            "description": "This indicates whether or not to encode the request signature."
-                        },
-                        "addParamsToHeader": {
-                            "type": "boolean",
-                            "default": false,
-                            "description": "This indicates whether or not to add the authorization params to the Authorization header."
-                        },
-                        "addEmptyParamsToSign": {
-                            "type": "boolean",
-                            "default": false,
-                            "description": "This indicates whether or not to include empty valued parameters in the request signature."
-                        }
+                    "description": "The attributes for [OAuth2](https://oauth.net/1/)",
+                    "items": {
+                        "$ref": "#/definitions/auth-attribute"
                     }
                 },
                 "oauth2": {
-                    "type": "object",
+                    "type": "array",
                     "title": "OAuth2",
                     "description": "Helper attributes for [OAuth2](https://oauth.net/2/)",
-                    "properties": {
-                        "accessToken": {
-                            "type": "string",
-                            "description": "The access token for the current request is stored in this field."
-                        },
-                        "addTokenTo": {
-                            "type": "string",
-                            "enum": [
-                                "header",
-                                "queryParams"
-                            ],
-                            "description": "The specifier for token handling behaviour is stored in this field."
-                        },
-                        "callBackUrl": {
-                            "type": "string",
-                            "description": "This field contains the URL that has to be hit when the authentication process has completed."
-                        },
-                        "authUrl": {
-                            "type": "string",
-                            "description": "The OAuth2 providers URL is stored in this field."
-                        },
-                        "accessTokenUrl": {
-                            "type": "string",
-                            "description": "The URL to fetch access tokens is stored in this field."
-                        },
-                        "clientId": {
-                            "type": "string",
-                            "description": "The unique client ID associated with the authentication request is stored in this field."
-                        },
-                        "clientSecret": {
-                            "type": "string",
-                            "description": "The client secret associated with the current authentication request is stored in this field."
-                        },
-                        "clientAuth": {
-                            "type": "string",
-                            "enum": [
-                                "body",
-                                "header"
-                            ],
-                            "description": "The client authentication associated with the current request request is stored in this field."
-                        },
-                        "grantType": {
-                            "type": "string",
-                            "enum": [
-                                "authorization_code",
-                                "implicit",
-                                "password_credentials",
-                                "client_credentials"
-                            ],
-                            "description": "The grant type associated with the current authentication request is stored in this field."
-                        },
-                        "scope": {
-                            "type": "string",
-                            "description": "This field is used to specify the access privileges requested from the OAuth provider by the authentication request."
-                        },
-                        "username": {
-                            "type": "string",
-                            "description": "This field is used to specify the OAuth2 provider username for the current request."
-                        },
-                        "password": {
-                            "type": "string",
-                            "description": "This field is used to specify the OAuth2 provider password for the current request."
-                        },
-                        "tokenType": {
-                            "type": "string",
-                            "description": "This field is used to specify the OAuth2 token type for the current request."
-                        },
-                        "redirectUri": {
-                            "type": "string",
-                            "description": "This field is used to specify the redirection URL for OAuth2 authentication."
-                        },
-                        "refreshToken": {
-                            "type": "string",
-                            "description": "This field is used to specify the refresh token for OAuth2 authentication."
-                        }
+                    "items": {
+                        "$ref": "#/definitions/auth-attribute"
                     }
                 }
             },
@@ -375,6 +166,7 @@
             ]
         },
         "certificate-list": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
             "id": "#/definitions/certificate-list",
             "title": "Certificate List",
             "description": "A representation of a list of ssl certificates",
@@ -384,6 +176,7 @@
             }
         },
         "certificate": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
             "id": "#/definitions/certificate",
             "title": "Certificate",
             "description": "A representation of an ssl certificate",
@@ -426,6 +219,7 @@
             }
         },
         "cookie-list": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
             "id": "#/definitions/cookie-list",
             "title": "Certificate List",
             "description": "A representation of a list of cookies",
@@ -435,6 +229,7 @@
             }
         },
         "cookie": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
             "type": "object",
             "title": "Cookie",
             "id": "#/definitions/cookie",
@@ -527,10 +322,10 @@
             ]
         },
         "event-list": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
             "id": "#/definitions/event-list",
             "title": "Event List",
             "type": "array",
-            "$schema": "http://json-schema.org/draft-04/schema#",
             "description": "Postman allows you to configure scripts to run when specific events occur. These scripts are stored here, and can be referenced in the collection by their ID.",
             "items": {
                 "$ref": "#/definitions/event"
@@ -565,6 +360,7 @@
             ]
         },
         "header-list": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
             "id": "#/definitions/header-list",
             "title": "Header List",
             "description": "A representation for a list of headers",
@@ -574,6 +370,7 @@
             }
         },
         "header": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
             "type": "object",
             "title": "Header",
             "id": "#/definitions/header",
@@ -634,6 +431,7 @@
             ]
         },
         "item-group": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
             "title": "Folder",
             "id": "#/definitions/item-group",
             "description": "One of the primary goals of Postman is to organize the development of APIs. To this end, it is necessary to be able to group requests together. This can be achived using 'Folders'. A folder just is an ordered set of requests.",
@@ -676,6 +474,9 @@
                             "$ref": "#/definitions/auth"
                         }
                     ]
+                },
+                "protocolProfileBehavior": {
+                    "$ref": "#/definitions/protocol-profile-behavior"
                 }
             },
             "required": [
@@ -683,6 +484,7 @@
             ]
         },
         "item": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
             "type": "object",
             "title": "Item",
             "id": "#/definitions/item",
@@ -714,13 +516,24 @@
                     "items": {
                         "$ref": "#/definitions/response"
                     }
+                },
+                "protocolProfileBehavior": {
+                    "$ref": "#/definitions/protocol-profile-behavior"
                 }
             },
             "required": [
                 "request"
             ]
         },
+        "protocol-profile-behavior": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "type": "object",
+            "title": "Protocol Profile Behavior",
+            "id": "#/definitions/protocol-profile-behavior",
+            "description": "Set of configurations used to alter the usual behavior of sending the request"
+        },
         "proxy-config": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
             "id": "#/definitions/proxy-config",
             "title": "Proxy Config",
             "description": "Using the Proxy, you can configure your custom proxy into the postman for particular url match",
@@ -783,24 +596,32 @@
                             "$ref": "#/definitions/certificate"
                         },
                         "method": {
-                            "description": "The HTTP method associated with this request.",
-                            "type": "string",
-                            "enum": [
-                                "GET",
-                                "PUT",
-                                "POST",
-                                "PATCH",
-                                "DELETE",
-                                "COPY",
-                                "HEAD",
-                                "OPTIONS",
-                                "LINK",
-                                "UNLINK",
-                                "PURGE",
-                                "LOCK",
-                                "UNLOCK",
-                                "PROPFIND",
-                                "VIEW"
+                            "anyOf": [
+                                {
+                                    "description": "The Standard HTTP method associated with this request.",
+                                    "type": "string",
+                                    "enum": [
+                                        "GET",
+                                        "PUT",
+                                        "POST",
+                                        "PATCH",
+                                        "DELETE",
+                                        "COPY",
+                                        "HEAD",
+                                        "OPTIONS",
+                                        "LINK",
+                                        "UNLINK",
+                                        "PURGE",
+                                        "LOCK",
+                                        "UNLOCK",
+                                        "PROPFIND",
+                                        "VIEW"
+                                    ]
+                                },
+                                {
+                                    "description": "The Custom HTTP method associated with this request.",
+                                    "type": "string"
+                                }
                             ]
                         },
                         "description": {
@@ -817,53 +638,29 @@
                             ]
                         },
                         "body": {
-                            "type": "object",
-                            "description": "This field contains the data usually contained in the request body.",
-                            "properties": {
-                                "mode": {
-                                    "description": "Postman stores the type of data associated with this request in this field.",
-                                    "enum": [
-                                        "raw",
-                                        "urlencoded",
-                                        "formdata",
-                                        "file"
-                                    ]
-                                },
-                                "raw": {
-                                    "type": "string"
-                                },
-                                "urlencoded": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "title": "UrlEncodedParameter",
-                                        "properties": {
-                                            "key": {
-                                                "type": "string"
-                                            },
-                                            "value": {
-                                                "type": "string"
-                                            },
-                                            "disabled": {
-                                                "type": "boolean",
-                                                "default": false
-                                            },
-                                            "description": {
-                                                "$ref": "#/definitions/description"
-                                            }
+                            "oneOf": [
+                                {
+                                    "type": "object",
+                                    "description": "This field contains the data usually contained in the request body.",
+                                    "properties": {
+                                        "mode": {
+                                            "description": "Postman stores the type of data associated with this request in this field.",
+                                            "enum": [
+                                                "raw",
+                                                "urlencoded",
+                                                "formdata",
+                                                "file",
+                                                "graphql"
+                                            ]
                                         },
-                                        "required": [
-                                            "key"
-                                        ]
-                                    }
-                                },
-                                "formdata": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "title": "FormParameter",
-                                        "oneOf": [
-                                            {
+                                        "raw": {
+                                            "type": "string"
+                                        },
+                                        "urlencoded": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "title": "UrlEncodedParameter",
                                                 "properties": {
                                                     "key": {
                                                         "type": "string"
@@ -873,41 +670,7 @@
                                                     },
                                                     "disabled": {
                                                         "type": "boolean",
-                                                        "default": false,
-                                                        "description": "When set to true, prevents this form data entity from being sent."
-                                                    },
-                                                    "type": {
-                                                        "type": "string",
-                                                        "enum": [
-                                                            "text"
-                                                        ]
-                                                    },
-                                                    "description": {
-                                                        "$ref": "#/definitions/description"
-                                                    }
-                                                },
-                                                "required": [
-                                                    "key"
-                                                ]
-                                            },
-                                            {
-                                                "properties": {
-                                                    "key": {
-                                                        "type": "string"
-                                                    },
-                                                    "src": {
-                                                        "type": "string"
-                                                    },
-                                                    "disabled": {
-                                                        "type": "boolean",
-                                                        "default": false,
-                                                        "description": "When set to true, prevents this form data entity from being sent."
-                                                    },
-                                                    "type": {
-                                                        "type": "string",
-                                                        "enum": [
-                                                            "file"
-                                                        ]
+                                                        "default": false
                                                     },
                                                     "description": {
                                                         "$ref": "#/definitions/description"
@@ -917,22 +680,122 @@
                                                     "key"
                                                 ]
                                             }
-                                        ]
-                                    }
-                                },
-                                "file": {
-                                    "type": "object",
-                                    "properties": {
-                                        "src": {
-                                            "type": "string",
-                                            "description": "Contains the name of the file to upload. _Not the path_."
                                         },
-                                        "content": {
-                                            "type": "string"
+                                        "formdata": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "title": "FormParameter",
+                                                "oneOf": [
+                                                    {
+                                                        "properties": {
+                                                            "key": {
+                                                                "type": "string"
+                                                            },
+                                                            "value": {
+                                                                "type": "string"
+                                                            },
+                                                            "disabled": {
+                                                                "type": "boolean",
+                                                                "default": false,
+                                                                "description": "When set to true, prevents this form data entity from being sent."
+                                                            },
+                                                            "type": {
+                                                                "type": "string",
+                                                                "enum": [
+                                                                    "text"
+                                                                ]
+                                                            },
+                                                            "contentType": {
+                                                                "type": "string",
+                                                                "description": "Override Content-Type header of this form data entity."
+                                                            },
+                                                            "description": {
+                                                                "$ref": "#/definitions/description"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "key"
+                                                        ]
+                                                    },
+                                                    {
+                                                        "properties": {
+                                                            "key": {
+                                                                "type": "string"
+                                                            },
+                                                            "src": {
+                                                                "oneOf": [
+                                                                    {
+                                                                        "type": "string"
+                                                                    },
+                                                                    {
+                                                                        "type": "null"
+                                                                    },
+                                                                    {
+                                                                        "type": "array"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "disabled": {
+                                                                "type": "boolean",
+                                                                "default": false,
+                                                                "description": "When set to true, prevents this form data entity from being sent."
+                                                            },
+                                                            "type": {
+                                                                "type": "string",
+                                                                "enum": [
+                                                                    "file"
+                                                                ]
+                                                            },
+                                                            "contentType": {
+                                                                "type": "string",
+                                                                "description": "Override Content-Type header of this form data entity."
+                                                            },
+                                                            "description": {
+                                                                "$ref": "#/definitions/description"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "key"
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "file": {
+                                            "type": "object",
+                                            "properties": {
+                                                "src": {
+                                                    "oneOf": [
+                                                        {
+                                                            "type": "string",
+                                                            "description": "Contains the name of the file to upload. _Not the path_."
+                                                        },
+                                                        {
+                                                            "type": "null",
+                                                            "description": "A null src indicates that no file has been selected as a part of the request body"
+                                                        }
+                                                    ]
+                                                },
+                                                "content": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "graphql": {
+                                            "type": "object"
+                                        },
+                                        "disabled": {
+                                            "type": "boolean",
+                                            "default": false,
+                                            "description": "When set to true, prevents request body from being sent."
                                         }
                                     }
+                                },
+                                {
+                                    "type": "null"
                                 }
-                            }
+                            ]
                         }
                     }
                 },
@@ -958,13 +821,28 @@
                     "title": "ResponseTime",
                     "oneOf": [
                         {
+                            "type": "null"
+                        },
+                        {
                             "type": "string"
                         },
                         {
                             "type": "number"
                         }
                     ],
-                    "description": "The time taken by the request to complete. If a number, the unit is milliseconds."
+                    "description": "The time taken by the request to complete. If a number, the unit is milliseconds. If the response is manually created, this can be set to `null`."
+                },
+                "timings": {
+                    "title": "Response Timings",
+                    "description": "Set of timing information related to request and response in milliseconds",
+                    "oneOf": [
+                        {
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
                 },
                 "header": {
                     "title": "Headers",
@@ -987,6 +865,9 @@
                         },
                         {
                             "type": "string"
+                        },
+                        {
+                            "type": "null"
                         }
                     ]
                 },
@@ -997,7 +878,10 @@
                     }
                 },
                 "body": {
-                    "type": "string",
+                    "type": [
+                        "null",
+                        "string"
+                    ],
                     "description": "The raw text of the response."
                 },
                 "status": {
@@ -1049,6 +933,7 @@
             }
         },
         "url": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
             "description": "If object, contains the complete broken-down URL for this request. If string, contains the literal request URL.",
             "id": "#/definitions/url",
             "title": "Url",
@@ -1170,6 +1055,7 @@
             ]
         },
         "variable-list": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
             "id": "#/definitions/variable-list",
             "title": "Variable List",
             "description": "Collection variables allow you to define a set of variables, that are a *part of the collection*, as opposed to environments, which are separate entities.\n*Note: Collection variables must not contain any sensitive information.*",
@@ -1179,6 +1065,7 @@
             }
         },
         "variable": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
             "id": "#/definitions/variable",
             "title": "Variable",
             "description": "Using variables in your Postman requests eliminates the need to duplicate requests, which can save a lot of time. Variables can be defined, and referenced to from any part of a request.",

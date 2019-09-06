@@ -8,7 +8,7 @@ describe('CenarioCreator', function() {
 
        it('should return error if TestConfigIsInvalid', function() {
 
-            const testConfig = require('./resources/InValidTestConfig.json');
+            const testConfig = require('./resources/InvalidTestConfig.json');
            testConfig.items[0].collection = './test/resources/ValidPostmanCollection.json';
            testConfig.items[1].collection = './test/resources/ValidPostmanCollection.json';
             //const collection = require('./resources/ValidPostmanCollection.json');
@@ -29,9 +29,9 @@ describe('CenarioCreator', function() {
         it('should return error if CollectionIsInvalid', function() {
 
             const testConfig = require('./resources/ValidTestConfig.json');
-            testConfig.items[0].collection = './test/resources/InValidPostmanCollection.json';
-            testConfig.items[1].collection = './test/resources/InValidPostmanCollection.json';
-            //const collection = require('./resources/InValidPostmanCollection.json');
+            testConfig.items[0].collection = './test/resources/InvalidPostmanCollection.json';
+            testConfig.items[1].collection = './test/resources/InvalidPostmanCollection.json';
+            //const collection = require('./resources/InvalidPostmanCollection.json');
             const collectionGenerator = new CollectionGenerator();
 
             let errorThrown = false;
